@@ -1,1 +1,12 @@
 
+#include <bits/stdc++.h>
+#include <iostream>
+using namespace std;
+int main (){
+int n;
+cin>>n;
+if(n%2==0){
+cout<<"Winning state"<<endl;
+}
+else cout<<"lossing state"<<endl;
+}
