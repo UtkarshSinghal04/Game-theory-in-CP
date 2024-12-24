@@ -1,12 +1,12 @@
-
 #include <bits/stdc++.h>
 #include <iostream>
 using namespace std;
 int main (){
 int n;
 cin>>n;
-if(n%2==0){
-cout<<"Winning state"<<endl;
-}
-else cout<<"lossing state"<<endl;
+if(n==0) cout<<"L"<<endl;
+if(n==1) cout<<"W"<<endl;
+else if(n>=2&&n<=3) cout<<"W"<<endl;
+else if(n%4==0) cout<<"L"<<endl;
+else cout<<"W"<<endl;
 }
