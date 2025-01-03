@@ -1,1 +1,25 @@
+#include <bits/stdc++.h>
+// #include<iostream>
+using namespace std;
+int grundy(int n){
+  return n%4;
+}
+int main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    int t=1;
+    // cin >> t;
+    while (t--)
+    {
+       int n;
+       cin>>n;
+        if(grundy(n)!=0){
+            cout<<"Winning State"<<endl;
+        }
+        else{
+            cout<<"Losing State"<<endl;
+        }
+    }
+}
 
