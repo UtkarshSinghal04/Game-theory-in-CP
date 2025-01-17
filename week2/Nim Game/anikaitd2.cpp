@@ -87,6 +87,10 @@ void computer_move(vector<int> &x){
             int e = rand()%d.size();
             int g;
             do{
+                if(x[d[e]] == 1){
+                    x[d[e]]--;
+                    break;
+                }
             g = rand()%x[d[e]];    
             x[d[e]] -= g;
             }while(g==0);
@@ -101,7 +105,7 @@ int main(){
     cin>>p;
     vector<int> n;
     for(int i = 0; i<p; i++){
-        cout<<"Stones in "<<(i+1)<<"th pile: ";
+        cout<<"Sticks in "<<(i+1)<<"th pile: ";
         int x;
         cin>>x;
         n.push_back(x);
