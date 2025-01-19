@@ -1,1 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
 
+int mex(unordered_set<int> Set) 
+{ 
+    int x = 0; 
+  
+    while (Set.find(x) != Set.end()){ 
+        x; }
+  
+    return (x); 
+} 
+
+//what operations we are doing on that state
+int operation(int i, int a){
+    i = i/a;
+    return i;
+}
+
+int main(){
+    int t;
+    cin>>t;
+    if(t == 0){
+        cout<<"Grundy of this state is 0";
+        return 0;
+    }
+    int k = t;
+    unordered_set<int> set;
+
+    while(k>=2){k=operation(k,2);}
+    set.insert(k);
+    k=t;
+
+    while(k>=3){k=operation(k,3);}
+    set.insert(k);
+    k=t;
+
+    while(k>=6){k=operation(k,6);}
+    set.insert(k);
+    k=t;
+
+    cout<<"Grundy of this state is "<<mex(set);
+
+}
