@@ -28,7 +28,7 @@ void your_move(vector<int> &x){
     int a;
     cout<<"Sticks you want to remove from this pile: ";
     cin>>a;
-    while(a>x[n]){
+    while(a>x[n] || (a <= 0)){
         cout<<"wtf bro?"<<endl;
         cout<<"Sticks you want to remove from this pile: ";
         cin>>a;
@@ -132,11 +132,21 @@ int main(){
     int p;
     cout<<"Number of piles: ";
     cin>>p;
+    while(p<=0){
+            cout<<"khelna nhi hai kya?"<<endl;
+            cout<<"Number of piles: ";
+            cin>>p;
+        }
     vector<int> n;
     for(int i = 0; i<p; i++){
         cout<<"Sticks in "<<(i)<<"th pile: ";
         int x;
         cin>>x;
+        while(x<=0){
+            cout<<"khelna nhi hai kya?"<<endl;
+            cout<<"Sticks in "<<(i)<<"th pile: ";
+            cin>>x;
+        }
         n.push_back(x);
     }
 
