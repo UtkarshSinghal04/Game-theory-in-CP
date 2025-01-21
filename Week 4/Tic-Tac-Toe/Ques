@@ -1,0 +1,38 @@
+Implement a Tic-Tac-Toe AI using the Minimax algorithm that plays a perfect game. The AI should evaluate all possible moves, make the optimal decision, and ensure a faster victory or a prolonged defeat by adjusting its evaluation score based on the depth of the game tree.
+
+Problem Description:
+
+Objective:
+
+Write a function findBestMove() that evaluates all possible moves for the current state of the Tic-Tac-Toe board using the Minimax algorithm and returns the best move for the maximizing player.
+Minimax Algorithm:
+
+Implement a recursive function minimax(board, depth, isMaximizingPlayer) that calculates the best possible score for a given move, assuming the opponent also plays optimally.
+Game Over State:
+
+Write a helper function isMovesLeft(board) to check if there are any moves left on the board.
+Evaluate the board for terminal states (win, lose, draw) and return corresponding scores adjusted with depth for faster victory or delayed defeat.
+Evaluation Criteria:
+
+If the maximizing player wins, return a score of WIN_SCORE - depth.
+If the minimizing player wins, return a score of LOSE_SCORE + depth.
+If the game ends in a draw, return 0.
+Requirements:
+
+Define constants for WIN_SCORE, LOSE_SCORE, and the size of the board (e.g., +10, -10, and 3x3).
+Ensure the AI considers depth to prioritize faster victories or slower defeats.
+Handle edge cases like empty boards, already completed games, and draw scenarios.
+
+Example Input:
+# Current Tic-Tac-Toe Board
+# 'X' is the maximizing player, 'O' is the minimizing player.
+# '_' represents an empty cell.
+
+board = [
+    ['X', 'O', 'X'],
+    ['_', 'O', '_'],
+    ['_', '_', 'X']
+]
+
+Expected Output:
+Best Move: (2, 1)  # Row 2, Column 1 (0-indexed)
