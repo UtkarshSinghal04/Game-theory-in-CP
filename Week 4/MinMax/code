@@ -1,1 +1,49 @@
 
+#include<bits/stdc++.h>
+using namespace std;
+
+int minimax(int depth, int node, bool is_max,
+            vector<int> scores, int h)
+{ 
+    if (depth == h){
+        return scores[node];}
+ 
+
+    if (is_max){
+       return max(minimax(depth+1, node*2, false, scores, h),
+            minimax(depth+1, node*2 + 1, false, scores, h));}
+ 
+    else{
+        return min(minimax(depth+1, node*2, true, scores, h),
+            minimax(depth+1, node*2 + 1, true, scores, h));}
+}
+
+void move(int x, vector<int> scores){
+    int a = scores.size();
+    for(int i = 0; i<a; i++){
+        if(x==scores[i]){
+            if(i<a/2){
+                cout<<"Left, ";
+            }
+            else cout<<"Right, ";
+            return;
+        }
+    }
+}
+ 
+int main(){
+    int d;
+    cout<<"Height of tree: ";
+    cin>>d;
+
+    vector<int> finals;
+    for(int i = 0; i<pow(2, d); i++){
+        int x;
+        cin>>x;
+        finals.push_back(x);
+    }
+
+    int x = minimax(0, 0, true, finals,d);
+    move(x,finals);
+    cout<<x;
+}
