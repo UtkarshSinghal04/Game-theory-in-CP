@@ -1,1 +1,78 @@
+#include<bits/stdc++.h>
+using namespace std;
 
+const int MAX = INT_MAX;
+const int MIN = INT_MIN;
+ 
+int minmax(int depth,int height, int node,
+            bool is_max,
+            vector<int> values, int alpha, 
+            int beta)
+{
+    if (depth == height)
+        return values[node];
+ 
+    if (is_max)
+    {
+        int best = MIN;
+
+        for (int i = 0; i < 2; i++)
+        {
+             
+            int val = minmax(depth + 1,height, node * 2 + i, 
+                              false, values, alpha, beta);
+            best = max(best, val);
+            alpha = max(alpha, best);
+ 
+            if (beta <= alpha)
+                break;
+        }
+        return best;
+    }
+    else
+    {
+        int best = MAX;
+ 
+        for (int i = 0; i < 2; i++)
+        {
+            int val = minmax(depth + 1,height, node * 2 + i,
+                              true, values, alpha, beta);
+            best = min(best, val);
+            beta = min(beta, best);
+ 
+            if (beta <= alpha)
+                break;
+        }
+        return best;
+    }
+}  
+
+void move(int x, vector<int> scores){
+    int a = scores.size();
+    for(int i = 0; i<a; i++){
+        if(x==scores[i]){
+            if(i<a/2){
+                cout<<"Left, ";
+            }
+            else cout<<"Right, ";
+            return;
+        }
+    }
+}
+
+int main(){
+    int d;
+    cout<<"Height of tree: ";
+    cin>>d;
+
+    vector<int> finals;
+    for(int i = 0; i<pow(2, d); i++){
+        int x;
+        cin>>x;
+        finals.push_back(x);
+    }
+
+    int x = minmax(0, d,0, true, finals,MIN,MAX);
+    move(x,finals);
+    cout<<x;
+}
