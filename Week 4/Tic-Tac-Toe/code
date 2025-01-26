@@ -1,1 +1,64 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+using namespace std;
 
+typedef vector<vector<char>> V;
+
+bool m(V &b) {
+    for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) if (b[i][j] == '_') return true;
+    return false;
+}
+
+char w(V &b) {
+    for (int i = 0; i < 3; i++) {
+        if (b[i][0] != '_' && b[i][0] == b[i][1] && b[i][1] == b[i][2]) return b[i][0];
+        if (b[0][i] != '_' && b[0][i] == b[1][i] && b[1][i] == b[2][i]) return b[0][i];
+    }
+    if (b[0][0] != '_' && b[0][0] == b[1][1] && b[1][1] == b[2][2]) return b[0][0];
+    if (b[0][2] != '_' && b[0][2] == b[1][1] && b[1][1] == b[2][0]) return b[0][2];
+    return '_';
+}
+
+int mm(V b, int d, bool x) {
+    char t = w(b);
+    if (t == 'X') return 10 - d;
+    if (t == 'O') return -10 + d;
+    if (!m(b)) return 0;
+    int v = x ? INT_MIN : INT_MAX;
+    for (int i = 0; i < 3; i++)
+        for (int j = 0; j < 3; j++)
+            if (b[i][j] == '_') {
+                b[i][j] = x ? 'X' : 'O';
+                int c = mm(b, d + 1, !x);
+                v = x ? max(v, c) : min(v, c);
+                b[i][j] = '_';
+            }
+    return v;
+}
+
+pair<int, int> bm(V b) {
+    int s = INT_MIN;
+    pair<int, int> m = {-1, -1};
+    for (int i = 0; i < 3; i++)
+        for (int j = 0; j < 3; j++)
+            if (b[i][j] == '_') {
+                b[i][j] = 'X';
+                int t = mm(b, 0, false);
+                if (t > s) {
+                    s = t;
+                    m = {i, j};
+                }
+                b[i][j] = '_';
+            }
+    return m;
+}
+
+int main() {
+    V b(3, vector<char>(3));
+    for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) cin >> b[i][j];
+    auto r = bm(b);
+    if (r.first == -1) cout << "No moves left\n";
+    else cout << "Row " << r.first << " Column " << r.second << endl;
+    return 0;
+}
