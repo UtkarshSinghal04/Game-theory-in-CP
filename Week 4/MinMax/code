@@ -1,1 +1,54 @@
+// took help of ai 
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <climits>
 
+using namespace std;
+
+struct Node {
+    int value;
+    Node* left;
+    Node* right;
+
+    Node(int v) : value(v), left(nullptr), right(nullptr) {}
+};
+
+pair<int, string> minimax(Node* node, bool isMaximizingPlayer) {
+    if (!node->left && !node->right) {
+        return {node->value, ""};
+    }
+
+    if (isMaximizingPlayer) {
+        pair<int, string> leftResult = minimax(node->left, false);
+        pair<int, string> rightResult = minimax(node->right, false);
+
+        if (leftResult.first >= rightResult.first) {
+            return {leftResult.first, "Left"};
+        } else {
+            return {rightResult.first, "Right"};
+        }
+    } else {
+        pair<int, string> leftResult = minimax(node->left, true);
+        pair<int, string> rightResult = minimax(node->right, true);
+
+        return {min(leftResult.first, rightResult.first), ""};
+    }
+}
+
+int main() {
+    Node* root = new Node(0);
+    root->left = new Node(0);
+    root->right = new Node(0);
+    root->left->left = new Node(3);
+    root->left->right = new Node(5);
+    root->right->left = new Node(2);
+    root->right->right = new Node(9);
+
+    pair<int, string> result = minimax(root, true);
+
+    cout << "Optimal Score: " << result.first << endl;
+    cout << "Optimal Move: " << result.second << endl;
+
+    return 0;
+}
