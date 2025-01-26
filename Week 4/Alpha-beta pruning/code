@@ -1,1 +1,36 @@
+// i have written for depth 3
+#include<bits/stdc++.h>
+using namespace std;
 
+const int M=1000, m=-M;
+
+int mm(int d, int n, bool mx, int v[], int a, int b) {
+    if(d == 3) return v[n];
+    
+    if(mx) {
+        int r = m;
+        for(int i=0; i<2; i++) {
+            int t = mm(d+1, n*2+i, 0, v, a, b);
+            r = max(r, t);
+            a = max(a, r);
+            if(b <= a) break;
+        }
+        return r;
+    }
+    
+    int r = M;
+    for(int i=0; i<2; i++) {
+        int t = mm(d+1, n*2+i, 1, v, a, b);
+        r = min(r, t);
+        b = min(b, r);
+        if(b <= a) break;
+    }
+    return r;
+}
+
+int main() {
+    int v[8];
+    cout << "Enter 8 values: ";
+    for(int i=0; i<8; i++) cin >> v[i];
+    cout << "Optimal: " << mm(0, 0, 1, v, m, M);
+}
