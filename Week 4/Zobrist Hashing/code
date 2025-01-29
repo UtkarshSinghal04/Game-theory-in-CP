@@ -1,1 +1,114 @@
 
+
+#include <bits/stdc++.h>
+using namespace std;
+ 
+unsigned long long int ZobristTable[8][8][12];
+mt19937 mt(01234567);
+ 
+unsigned long long int random()
+{
+    uniform_int_distribution<unsigned long long int>
+                                 dist(0, UINT64_MAX);
+    return dist(mt);
+}
+ 
+int indexOf(char piece)
+{
+    if (piece=='P')
+        return 0;
+    if (piece=='N')
+        return 1;
+    if (piece=='B')
+        return 2;
+    if (piece=='R')
+        return 3;
+    if (piece=='Q')
+        return 4;
+    if (piece=='K')
+        return 5;
+    if (piece=='p')
+        return 6;
+    if (piece=='n')
+        return 7;
+    if (piece=='b')
+        return 8;
+    if (piece=='r')
+        return 9;
+    if (piece=='q')
+        return 10;
+    if (piece=='k')
+        return 11;
+    else
+        return -1;
+}
+ 
+void initialTable()
+{
+    for (int i = 0; i<8; i++)
+      for (int j = 0; j<8; j++)
+        for (int k = 0; k<12; k++)
+          ZobristTable[i][j][k] = random();
+}
+ 
+unsigned long long int Hash(char board[8][9])
+{
+    unsigned long long int h = 0;
+    for (int i = 0; i<8; i++)
+    {
+        for (int j = 0; j<8; j++)
+        {
+            if (board[i][j] !='-')
+            {
+                int piece = indexOf(board[i][j]);
+                h ^= ZobristTable[i][j][piece];
+            }
+        }
+    }
+    return h;
+}
+ 
+int main()
+{
+    char board[8][9];
+    for(int i = 0 ; i<8; i++){
+        string s;
+        cin>>s;
+        for(int j = 0; j<8; j++){
+            board[i][j] = s[j];
+        }
+    }
+ 
+    initialTable();
+ 
+    unsigned long long int hashValue = Hash(board);
+    printf("The hash value is     : %llu\n", hashValue);
+
+    cout<<"what piece you want to move(tell cocordinates(0 based indexing)): ";
+    int x,y;
+    cin>>x>>y;
+    cout<<"where do you want to move it to: ";
+    int i,j;
+    cin>>i>>j;
+ 
+    char piece = board[x][y];
+ 
+    board[x][y] = '-';
+    hashValue ^= ZobristTable[x][y][indexOf(piece)];
+ 
+    board[i][j] = piece;
+    hashValue ^= ZobristTable[i][j][indexOf(piece)];
+ 
+    printf("The new hash value is : %llu\n", hashValue);
+ 
+    return 0;
+}
+
+// ---K----
+// -R----Q-
+// --------
+// -P----p-
+// -----p--
+// --------
+// p---b--q
+// ----n--k
