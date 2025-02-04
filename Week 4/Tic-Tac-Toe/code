@@ -1,1 +1,197 @@
+//finding best tic tac toe move
+#include<bits/stdc++.h> 
+using namespace std; 
+  
+struct Move 
+{ 
+    int row, col; 
+}; 
+  
+char you = 'x', comp = 'o'; 
+  
+bool gameover(char board[3][3]) 
+{ 
+    for (int i = 0; i<3; i++) 
+        for (int j = 0; j<3; j++) 
+            if (board[i][j]=='_') 
+                return true; 
+    return false; 
+} 
+  
+int evaluate(char b[3][3]) 
+{ 
+    for (int row = 0; row<3; row++) 
+    { 
+        if (b[row][0]==b[row][1] && b[row][1]==b[row][2]) 
+        { 
+            if (b[row][0]==you) 
+                return +10; 
+            else if (b[row][0]==comp) 
+                return -10; 
+        } 
+    } 
+   
+    for (int col = 0; col<3; col++) 
+    { 
+        if (b[0][col]==b[1][col] && b[1][col]==b[2][col]) 
+        { 
+            if (b[0][col]==you) 
+                return +10; 
+  
+            else if (b[0][col]==comp) 
+                return -10; 
+        } 
+    } 
+  
+    if (b[0][0]==b[1][1] && b[1][1]==b[2][2]) 
+    { 
+        if (b[0][0]==you) 
+            return +10; 
+        else if (b[0][0]==comp) 
+            return -10; 
+    } 
+  
+    if (b[0][2]==b[1][1] && b[1][1]==b[2][0]) 
+    { 
+        if (b[0][2]==you) 
+            return +10; 
+        else if (b[0][2]==comp) 
+            return -10; 
+    } 
+  
+    return 0; 
+} 
+  
+int minmax(char board[3][3], int depth, bool ismax) 
+{ 
+    int score = evaluate(board); 
+  
+    if (score == 10) 
+        return score; 
+  
+    if (score == -10) 
+        return score; 
+  
+    if (gameover(board)==false) 
+        return 0; 
+    
+    int best_max = -1000;
+    int best_min = 1000;
+    if (ismax) 
+    { 
+        //int best = INT_MIN; 
+  
+        for (int i = 0; i<3; i++) 
+        { 
+            for (int j = 0; j<3; j++) 
+            {  
+                if (board[i][j]=='_') 
+                { 
+                    board[i][j] = you; 
+  
+                    best_max = max( best_max, 
+                        minmax(board, depth+1, !ismax) ); 
+  
+                    board[i][j] = '_'; 
+                } 
+            } 
+        } 
+        best_max;
+        return best_max; 
+    } 
+
+    else
+    { 
+        //int best = INT_MAX; 
+  
+        for (int i = 0; i<3; i++) 
+        { 
+            for (int j = 0; j<3; j++) 
+            {
+                if (board[i][j]=='_') 
+                { 
+                    board[i][j] = comp; 
+  
+                    best_min = min(best_min, 
+                           minmax(board, depth+1, !ismax)); 
+  
+                    board[i][j] = '_'; 
+                } 
+            } 
+        } 
+        best_min;
+        return best_min; 
+    } 
+} 
+  
+Move find_bestmove(char board[3][3]) 
+{ 
+    int bestval = INT_MIN; 
+    Move bestmove; 
+    bestmove.row = -1; 
+    bestmove.col = -1; 
+  
+    for (int i = 0; i<3; i++) 
+    { 
+        for (int j = 0; j<3; j++) 
+        { 
+            if (board[i][j]=='_') 
+            { 
+                board[i][j] = you; 
+                int moveval = minmax(board, 0, false); 
+                board[i][j] = '_'; 
+                if (moveval > bestval) 
+                { 
+                    bestmove.row = i; 
+                    bestmove.col = j; 
+                    bestval = moveval; 
+                } 
+            } 
+        } 
+    } 
+    return bestmove; 
+} 
+
+bool empty(char board[3][3]){
+    for(int i = 0; i<3; i++){
+        for(int j = 0; j<3; j++){
+            if(board[i][j]!='_'){
+                return false;
+            }
+        }
+    }
+    return true;
+}  
+
+int main() 
+{ 
+    char board[3][3];
+    int turn_count = 0;
+    for(int i = 0; i<3; i++){
+        for(int j = 0; j<3; j++){
+            char x;
+            cin>>x;
+            board[i][j] = x;
+        }
+    }
+    
+    if(evaluate(board)==10){
+        cout<<"Already won.";
+        return 0;
+    }
+    else if(evaluate(board)==-10){
+        cout<<"Already lost";
+        return 0;
+    }
+     
+     if(empty(board)){
+        cout<<"Empty";
+        return 0;
+     }
+    Move bestmove = find_bestmove(board); 
+  
+    cout<<"Best move: ("<<bestmove.row<<","<<bestmove.col<<")"; 
+    return 0; 
+} 
+
 
